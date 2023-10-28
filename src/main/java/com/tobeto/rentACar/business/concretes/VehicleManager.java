@@ -33,12 +33,11 @@ public class VehicleManager implements VehicleService {
         }
 
         // Adding processes:
-        vehicleDao.add(vehicle);
         for (Logger logger:loggers) {
             logger.log(vehicle.getBrand() + " " + vehicle.getModel());
         }
+        vehicleDao.add(vehicle);
+        System.out.println(" ");
     }
 }
 
-//cannot rent under the specified age limit
-//cannot rent under the specified experience limit
