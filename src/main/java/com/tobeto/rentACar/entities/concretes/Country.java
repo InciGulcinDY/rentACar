@@ -1,25 +1,28 @@
 package com.tobeto.rentACar.entities.concretes;
 
-import com.tobeto.rentACar.entities.abstracts.Vehicle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "vans")
+@Table(name = "countries")
 @Entity
-@PrimaryKeyJoinColumn(name = "vehicle_id")
-public class Van extends Vehicle {
+public class Country {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "door_number")
-    private int doorNumber;
+    @Column(name = "country")
+    private String country;
+
+    @OneToMany(mappedBy = "country")
+    private List<City> cities;
 }

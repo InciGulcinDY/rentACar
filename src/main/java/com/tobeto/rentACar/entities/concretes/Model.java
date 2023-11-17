@@ -7,19 +7,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "vans")
+@Table(name = "models")
 @Entity
-@PrimaryKeyJoinColumn(name = "vehicle_id")
-public class Van extends Vehicle {
+public class Model {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "door_number")
-    private int doorNumber;
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    @OneToMany(mappedBy = "model")
+    private List<Vehicle> vehicles;
+
 }

@@ -1,62 +1,34 @@
 package com.tobeto.rentACar.entities.abstracts;
 
+import com.tobeto.rentACar.entities.concretes.Customer;
+import com.tobeto.rentACar.entities.concretes.Personnel;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Table(name = "person")
+
 public abstract class Person {
-    //Attributes:
-    private int personId;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
-    private int age;
+    @Column(name = "birthday")
+    private LocalDateTime birthday;
+    @Column(name = "international_id")
     private String internationalId;
 
-    //Constructor
+//TODO: Calculate age!
 
-    public Person(int personId, String firstName, String lastName, int age, String internationalId) {
-        this.personId = personId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.internationalId = internationalId;
-    }
-
-
-    //Getters & Setters
-    public int getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(int personId) {
-        this.personId = personId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getInternationalId() {
-        return internationalId;
-    }
-
-    public void setInternationalId(String internationalId) {
-        this.internationalId = internationalId;
-    }
 }

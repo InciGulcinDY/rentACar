@@ -24,20 +24,10 @@ public class VehicleManager implements VehicleService {
     public void addingVehicle(Vehicle vehicle) throws Exception {
         //Business Rules:
         //Rule-1: A vehicle without a traffic permit license cannot be registered.
-        if (!vehicle.isTrafficPermitLicence()){
-            throw new Exception(" vehicle without a traffic permit license cannot be registered.");
-        }
-        //Rule-2: The vehicle must not exceed a maximum age of 10 years.
-        if((Year.now().getValue() - vehicle.getManufacturedYear()) > 10){
-            throw new Exception("The vehicle must not exceed a maximum age of 10 years.");
-        }
 
-        // Adding processes:
-        for (Logger logger:loggers) {
-            logger.log(vehicle.getBrand() + " " + vehicle.getModel());
-        }
-        vehicleDao.add(vehicle);
-        System.out.println(" ");
+        //Rule-2: The vehicle must not exceed a maximum age of 10 years.
+
+
     }
 }
 

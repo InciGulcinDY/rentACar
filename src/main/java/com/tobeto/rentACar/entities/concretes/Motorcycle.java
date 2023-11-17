@@ -11,15 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "vans")
+@Table(name = "motorcycles")
 @Entity
 @PrimaryKeyJoinColumn(name = "vehicle_id")
-public class Van extends Vehicle {
+public class Motorcycle {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "door_number")
-    private int doorNumber;
 }

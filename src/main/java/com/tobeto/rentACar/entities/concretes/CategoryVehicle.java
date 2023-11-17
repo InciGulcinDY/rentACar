@@ -11,15 +11,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "vans")
+@Table(name = "categories_vehicles")
 @Entity
-@PrimaryKeyJoinColumn(name = "vehicle_id")
-public class Van extends Vehicle {
+public class CategoryVehicle {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "door_number")
-    private int doorNumber;
+    @ManyToOne
+    @MapsId("categoryId")
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @MapsId("vehicleId")
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 }

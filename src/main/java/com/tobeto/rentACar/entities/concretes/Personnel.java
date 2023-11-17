@@ -7,29 +7,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "customers")
+@Table(name = "personnel")
 @Entity
 @PrimaryKeyJoinColumn(name = "person_id")
-public class Customer extends Person {
+public class Personnel {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "licence_issue_date")
-    private LocalDateTime licenceIssueDate;
-
+    @Column(name = "company_id")
+    private int companyId;
     @ManyToOne
-    @JoinColumn(name = "driver_licence_type_id")
-    private DriverLicenceType driverLicenceType;
-
-    @OneToMany(mappedBy = "customer")
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+    @OneToMany(mappedBy = "personnel")
     private List<Rent> rents;
 }
