@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +25,6 @@ public class Brand {
     private String brand_Name;
 
     @OneToMany(mappedBy = "brand")
+    @JsonIgnore
     private List<Model> models;
 }

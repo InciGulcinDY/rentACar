@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "motorcycles")
 @Entity
 @PrimaryKeyJoinColumn(name = "vehicle_id")
-public class Motorcycle {
+public class Motorcycle extends Vehicle {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

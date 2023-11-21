@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,11 +22,14 @@ public class Branch {
     private int id;
     @Column(name = "branch_name")
     private String branchName;
+
     @ManyToOne
     @JoinColumn(name = "city_id")
+    @JsonIgnore
     private City city;
 
 
     @OneToMany(mappedBy = "branch")
+    @JsonIgnore
     private List<Personnel> personnels;
 }

@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.entities.abstracts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tobeto.rentACar.entities.concretes.*;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,21 +37,28 @@ public abstract class Vehicle {
     private String plateNumber;
     @ManyToOne
     @JoinColumn(name = "color_id")
+    @JsonIgnore
     private Color color;
     @ManyToOne
     @JoinColumn(name = "model_id")
+    @JsonIgnore
     private Model model;
     @ManyToOne
     @JoinColumn(name = "gear_type_id")
+    @JsonIgnore
     private GearType gearType;
     @ManyToOne
     @JoinColumn(name = "energy_type_id")
+    @JsonIgnore
     private EnergyType energyType;
     @ManyToOne
     @JoinColumn(name = "driver_licence_req_type_id")
+    @JsonIgnore
     private DriverLicenceType driverLicenceReqType;
     @OneToMany(mappedBy = "vehicle")
+    @JsonIgnore
     private List<CategoryVehicle> categoryVehicles;
     @OneToMany(mappedBy = "vehicle")
+    @JsonIgnore
     private List<Rent> rents;
 }

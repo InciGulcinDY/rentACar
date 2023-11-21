@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.entities.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tobeto.rentACar.entities.abstracts.Person;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,8 +29,10 @@ public class Customer extends Person {
 
     @ManyToOne
     @JoinColumn(name = "driver_licence_type_id")
+    @JsonIgnore
     private DriverLicenceType driverLicenceType;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Rent> rents;
 }
