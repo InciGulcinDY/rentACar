@@ -22,7 +22,7 @@ public class Brand {
     private int id;
 
     @Column(name = "brand_name")
-    private String brand_Name;
+    private String brandName;
 
     @OneToMany(mappedBy = "brand")
     @JsonIgnore

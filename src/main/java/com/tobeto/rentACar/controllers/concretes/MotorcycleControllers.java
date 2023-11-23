@@ -1,7 +1,10 @@
 package com.tobeto.rentACar.controllers.concretes;
 
-import com.tobeto.rentACar.dataAccess.concretes.MotorcycleRepository;
-import com.tobeto.rentACar.entities.concretes.Motorcycle;
+import com.tobeto.rentACar.services.abstracts.MotorcycleService;
+import com.tobeto.rentACar.services.dtos.motorcycles.request.AddMotorcycleRequest;
+import com.tobeto.rentACar.services.dtos.motorcycles.request.DeleteMotorcycleRequest;
+import com.tobeto.rentACar.services.dtos.motorcycles.request.UpdateMotorcycleRequest;
+import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,53 +12,29 @@ import java.util.List;
 @RestController
 @RequestMapping("api/motorcycles")
 public class MotorcycleControllers {
+    private MotorcycleService motorcycleService;
 
-    private final MotorcycleRepository motorcycleRepository;
-
-    public MotorcycleControllers(MotorcycleRepository motorcycleRepository) {
-        this.motorcycleRepository = motorcycleRepository;
+    public MotorcycleControllers(MotorcycleService motorcycleService) {
+        this.motorcycleService = motorcycleService;
     }
 
     @GetMapping
-    public List<Motorcycle> getAll(){
-        List<Motorcycle> motorcycles = motorcycleRepository.findAll();
-        return motorcycles;
+    public List<GetAllMotorcycleResponse> getAll(){
+        return motorcycleService.getAllMotorcycles();
     }
-
-    @GetMapping("{id}")
-    public Motorcycle getById(@PathVariable int id){
-        return motorcycleRepository.findById(id).orElseThrow();
-    }
-
     @PostMapping
-    public void add(@RequestBody Motorcycle motorcycle){
-        motorcycleRepository.save(motorcycle);
+    public void add(@RequestBody AddMotorcycleRequest request){
+        motorcycleService.addMotorcycle(request);
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable int id){
-       Motorcycle motorcycleToBeDeleted = motorcycleRepository.findById(id).orElseThrow();
-        motorcycleRepository.delete(motorcycleToBeDeleted);
+    @DeleteMapping("{plateNumber}")
+    public void delete(@RequestBody DeleteMotorcycleRequest request){
+       motorcycleService.deleteMotorcycle(request);
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable int id, @RequestBody Motorcycle motorcycle){
-        Motorcycle motorcycleToBeUpdated = motorcycleRepository.findById(id).orElseThrow();
-        motorcycleToBeUpdated.setBaggageCapacity(motorcycle.getBaggageCapacity());
-        motorcycleToBeUpdated.setColor(motorcycle.getColor());
-        motorcycleToBeUpdated.setImage(motorcycle.getImage());
-        motorcycleToBeUpdated.setCategoryVehicles(motorcycle.getCategoryVehicles());
-        motorcycleToBeUpdated.setDriverAgeLimit(motorcycle.getDriverAgeLimit());
-        motorcycleToBeUpdated.setDriverLicenceReqType(motorcycle.getDriverLicenceReqType());
-        motorcycleToBeUpdated.setDriverExperienceReqLimit(motorcycle.getDriverExperienceReqLimit());
-        motorcycleToBeUpdated.setEnergyType(motorcycle.getEnergyType());
-        motorcycleToBeUpdated.setGearType(motorcycle.getGearType());
-        motorcycleToBeUpdated.setManufacturedYear(motorcycle.getManufacturedYear());
-        motorcycleToBeUpdated.setModel(motorcycle.getModel());
-        motorcycleToBeUpdated.setPassengerCapacity(motorcycle.getPassengerCapacity());
-        motorcycleToBeUpdated.setPlateNumber(motorcycle.getPlateNumber());
-        motorcycleToBeUpdated.setTrafficPermitLicenceDate(motorcycle.getTrafficPermitLicenceDate());
-        motorcycleRepository.save(motorcycleToBeUpdated);
+    @PutMapping("{plateNumber}")
+    public void update(@PathVariable String plateNumber, @RequestBody UpdateMotorcycleRequest request){
+       motorcycleService.updateMotocycle(plateNumber, request);
     }
 
 

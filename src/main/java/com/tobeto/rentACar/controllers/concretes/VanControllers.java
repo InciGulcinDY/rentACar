@@ -2,6 +2,12 @@ package com.tobeto.rentACar.controllers.concretes;
 
 import com.tobeto.rentACar.dataAccess.concretes.VanRepository;
 import com.tobeto.rentACar.entities.concretes.Van;
+import com.tobeto.rentACar.services.abstracts.VanService;
+import com.tobeto.rentACar.services.dtos.customers.response.GetAllCustomerResponse;
+import com.tobeto.rentACar.services.dtos.vans.requests.AddVanRequest;
+import com.tobeto.rentACar.services.dtos.vans.requests.DeleteVanRequest;
+import com.tobeto.rentACar.services.dtos.vans.requests.UpdateVanRequest;
+import com.tobeto.rentACar.services.dtos.vans.responses.GetAllVanResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,52 +15,30 @@ import java.util.List;
 @RestController
 @RequestMapping("api/vans")
 public class VanControllers {
-    private final VanRepository vanRepository;
+    private VanService vanService;
 
-    public VanControllers(VanRepository vanRepository) {
-        this.vanRepository = vanRepository;
+    public VanControllers(VanService vanService) {
+        this.vanService = vanService;
     }
 
     @GetMapping
-    public List<Van> getAll(){
-        return vanRepository.findAll();
-    }
-
-    @GetMapping("{id}")
-    public Van getById(@PathVariable int id){
-        return vanRepository.findById(id).orElseThrow();
+    public List<GetAllVanResponse> getAll(){
+        return vanService.getAllVans();
     }
 
     @PostMapping
-    public void add(@RequestBody Van van){
-        vanRepository.save(van);
+    public void add(@RequestBody AddVanRequest request){
+        vanService.addVan(request);
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable int id){
-        Van vanToBeDeleted = vanRepository.findById(id).orElseThrow();
-        vanRepository.delete(vanToBeDeleted);
+    @DeleteMapping("{plateNumber}")
+    public void delete(@RequestBody DeleteVanRequest request){
+        vanService.deleteVan(request);
     }
 
-    @PutMapping("{id}")
-    public void update(@PathVariable int id, @RequestBody Van van){
-        Van vanToBeUpdated = vanRepository.findById(id).orElseThrow();
-        vanToBeUpdated.setDoorNumber(van.getDoorNumber());
-        vanToBeUpdated.setColor(van.getColor());
-        vanToBeUpdated.setBaggageCapacity(van.getBaggageCapacity());
-        vanToBeUpdated.setCategoryVehicles(van.getCategoryVehicles());
-        vanToBeUpdated.setImage(van.getImage());
-        vanToBeUpdated.setDriverAgeLimit(van.getDriverAgeLimit());
-        vanToBeUpdated.setDriverLicenceReqType(van.getDriverLicenceReqType());
-        vanToBeUpdated.setDriverExperienceReqLimit(van.getDriverExperienceReqLimit());
-        vanToBeUpdated.setEnergyType(van.getEnergyType());
-        vanToBeUpdated.setGearType(van.getGearType());
-        vanToBeUpdated.setManufacturedYear(van.getManufacturedYear());
-        vanToBeUpdated.setModel(van.getModel());
-        vanToBeUpdated.setPlateNumber(van.getPlateNumber());
-        vanToBeUpdated.setPassengerCapacity(van.getPassengerCapacity());
-        vanToBeUpdated.setTrafficPermitLicenceDate(van.getTrafficPermitLicenceDate());
-        vanRepository.save(vanToBeUpdated);
+    @PutMapping("{plateNumber}")
+    public void update(@PathVariable String plateNumber, @RequestBody UpdateVanRequest request){
+        vanService.updateVan(plateNumber, request);
     }
 }
 
