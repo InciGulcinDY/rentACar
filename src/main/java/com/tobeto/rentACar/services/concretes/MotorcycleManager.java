@@ -7,6 +7,7 @@ import com.tobeto.rentACar.services.dtos.motorcycles.request.AddMotorcycleReques
 import com.tobeto.rentACar.services.dtos.motorcycles.request.DeleteMotorcycleRequest;
 import com.tobeto.rentACar.services.dtos.motorcycles.request.UpdateMotorcycleRequest;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse;
+import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleWithGearTypesResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,15 +23,17 @@ public class MotorcycleManager implements MotorcycleService {
 
     @Override
     public List<GetAllMotorcycleResponse> getAllMotorcycles() {
-        List<Motorcycle> motorcycles = motorcycleRepository.findAll();
-        List<GetAllMotorcycleResponse> responses = new ArrayList<>();
-        for (Motorcycle motorcycle:motorcycles) {
-            GetAllMotorcycleResponse responseItem = new GetAllMotorcycleResponse();
-            responseItem.setImage(motorcycle.getImage());
-            responseItem.setPlateNumber(motorcycle.getPlateNumber());
-            responses.add(responseItem);
-        }
-        return responses;
+        return motorcycleRepository.getAllMotorcycles();
+    }
+
+    @Override
+    public List<Motorcycle> findByPlateNumberStartingWith(String plateNumber) {
+        return motorcycleRepository.findByPlateNumberStartingWith(plateNumber);
+    }
+
+    @Override
+    public List<GetAllMotorcycleWithGearTypesResponse> getAllMotorcycleWithGearTypes() {
+        return motorcycleRepository.getAllMotorcycleWithGearTypesResponse();
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.util.List;
 @Table(name = "customers")
 @Entity
 @PrimaryKeyJoinColumn(name = "person_id")
+
 public class Customer extends Person {
     @Id
     @Column(name = "id")
@@ -35,4 +36,5 @@ public class Customer extends Person {
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private List<Rent> rents;
+
 }

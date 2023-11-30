@@ -5,7 +5,9 @@ import com.tobeto.rentACar.entities.concretes.Personnel;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -29,6 +31,14 @@ public abstract class Person {
     @Column(name = "international_id")
     private String internationalId;
 
-//TODO: Calculate age!
+    @Transient
+    private transient Integer age = getAge(birthday);
 
+    public  Integer getAge(LocalDateTime birthday){
+        if (birthday == null){
+            return null;
+        }
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(LocalDate.from(birthday), currentDate).getYears();
+    }
 }

@@ -7,6 +7,8 @@ import com.tobeto.rentACar.services.dtos.cars.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.request.DeleteCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.request.UpdateCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsResponse;
+import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsWithGearTypesResponse;
+import com.tobeto.rentACar.services.dtos.cars.response.GetCarByBrandResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,20 +21,19 @@ public class CarManager implements CarService {
     }
     @Override
     public List<GetAllCarsResponse> getAllCars() {
-        List<Car> cars = carRepository.findAll();
-        List<GetAllCarsResponse> responses = new ArrayList<>();
-        for (Car car:cars) {
-            GetAllCarsResponse responseItem = new GetAllCarsResponse();
-            responseItem.setBaggageCapacity(car.getBaggageCapacity());
-            responseItem.setImage(car.getImage());
-            responseItem.setPlateNumber(car.getPlateNumber());
-            responseItem.setPassengerCapacity(car.getPassengerCapacity());
-            responses.add(responseItem);
-        }
-        return responses;
-
-        //TODO: Add model & brand
+        return carRepository.getAllCars();
     }
+
+    @Override
+    public List<GetAllCarsWithGearTypesResponse> getAllCarsWithGearTypes() {
+        return carRepository.getAllCarsWithGearTypes();
+    }
+
+    @Override
+    public List<Car> getCarByPlateNumber(String plateNumber) {
+        return carRepository.findByPlateNumberStartingWith(plateNumber);
+    }
+
     @Override
     public void addCar(AddCarRequest request) {
         Car car = new Car();
@@ -70,5 +71,21 @@ public class CarManager implements CarService {
         }
         //Checking the existance of the car
         carRepository.findById(request.getId()).orElseThrow();
+    }
+
+    @Override
+    public List<GetCarByBrandResponse> getCarByBrand(String brandName) {
+        List<GetCarByBrandResponse> carByBrandResponseList = carRepository.getCarByBrand();
+        List<GetCarByBrandResponse> responses = new ArrayList<>();
+        for (GetCarByBrandResponse response : carByBrandResponseList) {
+            GetCarByBrandResponse carByBrandResponse = new GetCarByBrandResponse();
+            if(response.getBrand().equals(brandName)){
+                carByBrandResponse.setBrand(response.getBrand());
+                carByBrandResponse.setPlateNumber(response.getPlateNumber());
+                carByBrandResponse.setModel(response.getModel());
+                responses.add(carByBrandResponse);
+            }
+        }
+        return responses;
     }
 }

@@ -18,6 +18,8 @@ public class BrandManager implements BrandService {
     public BrandManager(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }
+
+
     @Override
     public List<GetAllBrandsByCustomerResponse> getAllBrandsByCustomerResponse() {
         List<Brand>  brands = brandRepository.findAll();
@@ -30,6 +32,12 @@ public class BrandManager implements BrandService {
         }
         return customerResponses;
     }
+
+    @Override
+    public List<Brand> getByName(String brandName) {
+        return brandRepository.findByBrandNameStartingWith(brandName);
+    }
+
     @Override
     public void addBrandByEmployee(AddBrandByEmployeeRequest request) {
         Brand brand = new Brand();

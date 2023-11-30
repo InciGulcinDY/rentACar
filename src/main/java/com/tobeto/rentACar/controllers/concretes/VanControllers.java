@@ -1,6 +1,7 @@
 package com.tobeto.rentACar.controllers.concretes;
 
 import com.tobeto.rentACar.dataAccess.concretes.VanRepository;
+import com.tobeto.rentACar.entities.concretes.Car;
 import com.tobeto.rentACar.entities.concretes.Van;
 import com.tobeto.rentACar.services.abstracts.VanService;
 import com.tobeto.rentACar.services.dtos.customers.response.GetAllCustomerResponse;
@@ -21,22 +22,26 @@ public class VanControllers {
         this.vanService = vanService;
     }
 
-    @GetMapping
+    @GetMapping("/getall")
     public List<GetAllVanResponse> getAll(){
         return vanService.getAllVans();
     }
 
-    @PostMapping
+    @GetMapping("getbyplatenumber")
+    public List<Van> getCarByPlateNumber(@RequestParam String plateNumber){
+        return vanService.getVanByPlateNumber(plateNumber);
+    }
+    @PostMapping("addvan")
     public void add(@RequestBody AddVanRequest request){
         vanService.addVan(request);
     }
 
-    @DeleteMapping("{plateNumber}")
+    @DeleteMapping("delete/{plateNumber}")
     public void delete(@RequestBody DeleteVanRequest request){
         vanService.deleteVan(request);
     }
 
-    @PutMapping("{plateNumber}")
+    @PutMapping("update/{plateNumber}")
     public void update(@PathVariable String plateNumber, @RequestBody UpdateVanRequest request){
         vanService.updateVan(plateNumber, request);
     }

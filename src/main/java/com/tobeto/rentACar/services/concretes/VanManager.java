@@ -22,16 +22,12 @@ public class VanManager implements VanService {
 
     @Override
     public List<GetAllVanResponse> getAllVans() {
-        List<Van> vans = vanRepository.findAll();
-        List<GetAllVanResponse> responses = new ArrayList<>();
-        for (Van van : vans) {
-            GetAllVanResponse responseItem = new GetAllVanResponse();
-            responseItem.setPlateNumber(van.getPlateNumber());
-            responseItem.setPassengerCapacity(van.getPassengerCapacity());
-            responseItem.setImage(van.getImage());
-            responses.add(responseItem);
-        }
-        return responses;
+        return vanRepository.getAllVans();
+    }
+
+    @Override
+    public List<Van> getVanByPlateNumber(String plateNumber) {
+        return vanRepository.findByPlateNumberStartingWith(plateNumber);
     }
 
     @Override

@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllMotorcycleResponse {
+public class GetAllMotorcycleWithGearTypesResponse {
     private String plateNumber;
     private String brand;
     private String model;
-    private int passengerCapacity;
-    private String image;
+    private String gearType;
 }

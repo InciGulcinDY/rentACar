@@ -1,5 +1,6 @@
 package com.tobeto.rentACar.controllers.concretes;
 
+import com.tobeto.rentACar.entities.concretes.Brand;
 import com.tobeto.rentACar.services.abstracts.BrandService;
 import com.tobeto.rentACar.services.dtos.brands.request.AddBrandByEmployeeRequest;
 import com.tobeto.rentACar.services.dtos.brands.request.DeleteBrandByEmployeeRequest;
@@ -19,6 +20,10 @@ public class BrandControllers {
     @GetMapping("getall")
     public List<GetAllBrandsByCustomerResponse> getAllBrandsCustomerResponse(){
         return brandService.getAllBrandsByCustomerResponse();
+    }
+    @GetMapping()
+    public List<Brand> getByName(@RequestParam String brandName){
+        return brandService.getByName(brandName);
     }
     @PostMapping
     public void add(@RequestBody AddBrandByEmployeeRequest request){

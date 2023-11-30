@@ -3,11 +3,12 @@ package com.tobeto.rentACar.services.concretes;
 import com.tobeto.rentACar.dataAccess.concretes.CustomerRepository;
 import com.tobeto.rentACar.entities.concretes.Customer;
 import com.tobeto.rentACar.services.abstracts.CustomerService;
-import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsResponse;
 import com.tobeto.rentACar.services.dtos.customers.request.AddCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.request.DeleteCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.request.UpdateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.response.GetAllCustomerResponse;
+import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerAgeResponse;
+import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerBirthdayResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +35,21 @@ public class CustomerManager implements CustomerService {
             responses.add(responseItem);
         }
         return responses;
+    }
+
+    @Override
+    public List<Customer> getByFirstName(String firstname) {
+        return customerRepository.findByFirstNameStartingWith(firstname);
+    }
+
+    @Override
+    public List<Customer> getByLastName(String lastName) {
+        return customerRepository.findByLastNameStartingWith(lastName);
+    }
+
+    @Override
+    public List<GetCustomerBirthdayResponse> getCustomerBirthday(String firstName) {
+        return customerRepository.getCustomerBirthday(firstName);
     }
 
     @Override

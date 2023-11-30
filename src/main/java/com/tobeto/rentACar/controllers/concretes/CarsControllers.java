@@ -7,6 +7,8 @@ import com.tobeto.rentACar.services.dtos.cars.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.request.DeleteCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.request.UpdateCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsResponse;
+import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsWithGearTypesResponse;
+import com.tobeto.rentACar.services.dtos.cars.response.GetCarByBrandResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +25,20 @@ public class CarsControllers {
     @GetMapping("getall")
     public List<GetAllCarsResponse> getAllCars() {
         return carService.getAllCars();
+    }
+
+    @GetMapping("getallwithgeartypes")
+    public List<GetAllCarsWithGearTypesResponse> getAllCarsWithGearTypes(){
+        return carService.getAllCarsWithGearTypes();
+    }
+    @GetMapping("{brandName}")
+    public List<GetCarByBrandResponse> getCarByBrand(String brandName){
+        return carService.getCarByBrand(brandName);
+    }
+
+    @GetMapping("plateNumber")
+    public List<Car> getCarByPlateNumber(@RequestParam String plateNumber){
+        return carService.getCarByPlateNumber(plateNumber);
     }
 
     @PostMapping
