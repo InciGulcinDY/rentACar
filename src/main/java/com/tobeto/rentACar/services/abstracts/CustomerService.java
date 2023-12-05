@@ -5,15 +5,16 @@ import com.tobeto.rentACar.services.dtos.customers.request.AddCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.request.DeleteCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.request.UpdateCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.response.GetAllCustomerResponse;
-import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerAgeResponse;
 import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerBirthdayResponse;
+import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerByFirstNameStartingWithResponse;
+import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerByLastNameStartingWithResponse;
 
 import java.util.List;
 
 public interface CustomerService {
     public List<GetAllCustomerResponse> getAllCustomers();
-    public  List<Customer> getByFirstName(String firstname);
-    public List<Customer> getByLastName(String lastName);
+    public  List<GetCustomerByFirstNameStartingWithResponse> getByFirstName(String firstname);
+    public List<GetCustomerByLastNameStartingWithResponse> getByLastName(String lastName);
     public List<GetCustomerBirthdayResponse> getCustomerBirthday(String firstName);
     public void addCustomer(AddCustomerRequest request);
     public void deleteCustomer(DeleteCustomerRequest request);

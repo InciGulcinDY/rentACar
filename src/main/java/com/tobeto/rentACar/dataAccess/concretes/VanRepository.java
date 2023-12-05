@@ -11,7 +11,10 @@ public interface VanRepository  extends JpaRepository<Van, Integer> {
     List<Van> findByPlateNumberStartingWith(String plateNumber);    // Derived Query Methods
 
     @Query("select new com.tobeto.rentACar.services.dtos.vans.responses.GetAllVanResponse" +
-            "(v.plateNumber, b.brandName, m.modelName, v.passengerCapacity, v.baggageCapacity, v.image) " +
+            "(v.plateNumber, " +
+            "new com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse(b.id, b.brandName), " +
+            "new com.tobeto.rentACar.services.dtos.models.response.GetAllModelsResponse(m.id,m.modelName), " +
+            "v.passengerCapacity, v.baggageCapacity, v.image) " +
             "from Van v " +
             "join v.model m " +
             "join m.brand b"

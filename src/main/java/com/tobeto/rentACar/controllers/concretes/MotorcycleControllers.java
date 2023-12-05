@@ -8,6 +8,7 @@ import com.tobeto.rentACar.services.dtos.motorcycles.request.DeleteMotorcycleReq
 import com.tobeto.rentACar.services.dtos.motorcycles.request.UpdateMotorcycleRequest;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleWithGearTypesResponse;
+import com.tobeto.rentACar.services.dtos.motorcycles.response.GetMotorcycleByPlateNumberStartingWithResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class MotorcycleControllers {
     }
 
     @GetMapping("plateNumber")
-    public List<Motorcycle> getMotorcycleByPlateNumber(@RequestParam String plateNumber){
+    public List<GetMotorcycleByPlateNumberStartingWithResponse> getMotorcycleByPlateNumber(@RequestParam String plateNumber){
         return motorcycleService.findByPlateNumberStartingWith(plateNumber);
     }
 

@@ -1,7 +1,6 @@
 package com.tobeto.rentACar.dataAccess.concretes;
 
 import com.tobeto.rentACar.entities.concretes.Customer;
-import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerAgeResponse;
 import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerBirthdayResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

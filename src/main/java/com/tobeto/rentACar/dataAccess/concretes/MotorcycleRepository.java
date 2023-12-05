@@ -9,17 +9,22 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MotorcycleRepository extends JpaRepository<Motorcycle, Integer> {
-    List<Motorcycle> findByPlateNumberStartingWith (String plateNumber);    // Derived Query Methods
 
     @Query("select new com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse" +
-            "(mo.plateNumber, b.brandName, m.modelName, mo.passengerCapacity, mo.image) " +
+            "(mo.plateNumber, " +
+            "new com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse(b.id, b.brandName), " +
+            "new com.tobeto.rentACar.services.dtos.models.response.GetAllModelsResponse(m.id,m.modelName), " +
+            "mo.passengerCapacity, mo.image) " +
             "from Motorcycle mo " +
-            "join mo.model m " +
-            "join m.brand b")
+            "inner join mo.model m " +
+            "inner join m.brand b")
     List<GetAllMotorcycleResponse> getAllMotorcycles(); // JPQL Methods
-
+    List<Motorcycle> findByPlateNumberStartingWith (String plateNumber);    // Derived Query Methods
     @Query("select new com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleWithGearTypesResponse" +
-            "(mo.plateNumber, b.brandName, m.modelName, g.gearTypeDef) " +
+            "(mo.plateNumber, " +
+            "new com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse(b.id, b.brandName), " +
+            "new com.tobeto.rentACar.services.dtos.models.response.GetAllModelsResponse(m.id,m.modelName), " +
+            "new com.tobeto.rentACar.services.dtos.gearTypes.response.GetAllGearTypesResponse(g.id, g.gearTypeDef)) " +
             "from Motorcycle mo " +
             "join mo.model m " +
             "join m.brand b " +

@@ -41,7 +41,6 @@ public abstract class Vehicle {
     private Color color;
     @ManyToOne
     @JoinColumn(name = "model_id")
-    @JsonIgnore
     private Model model;
     @ManyToOne
     @JoinColumn(name = "gear_type_id")

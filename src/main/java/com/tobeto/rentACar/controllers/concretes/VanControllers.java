@@ -9,6 +9,7 @@ import com.tobeto.rentACar.services.dtos.vans.requests.AddVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.requests.DeleteVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.requests.UpdateVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.responses.GetAllVanResponse;
+import com.tobeto.rentACar.services.dtos.vans.responses.GetVanByPlateNumberResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class VanControllers {
     }
 
     @GetMapping("getbyplatenumber")
-    public List<Van> getCarByPlateNumber(@RequestParam String plateNumber){
+    public List<GetVanByPlateNumberResponse> getCarByPlateNumber(@RequestParam String plateNumber){
         return vanService.getVanByPlateNumber(plateNumber);
     }
     @PostMapping("addvan")

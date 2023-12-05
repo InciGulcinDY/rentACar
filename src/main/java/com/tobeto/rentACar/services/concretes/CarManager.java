@@ -1,18 +1,26 @@
 package com.tobeto.rentACar.services.concretes;
 
 import com.tobeto.rentACar.dataAccess.concretes.CarRepository;
+import com.tobeto.rentACar.entities.concretes.Brand;
 import com.tobeto.rentACar.entities.concretes.Car;
+import com.tobeto.rentACar.entities.concretes.Model;
 import com.tobeto.rentACar.services.abstracts.CarService;
+import com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse;
+import com.tobeto.rentACar.services.dtos.brands.response.GetBrandByBrandNameStartingWithResponse;
 import com.tobeto.rentACar.services.dtos.cars.request.AddCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.request.DeleteCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.request.UpdateCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsWithGearTypesResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetCarByBrandResponse;
+import com.tobeto.rentACar.services.dtos.cars.response.GetCarByPlateNumberStartingWithResponse;
+import com.tobeto.rentACar.services.dtos.models.response.GetAllModelsResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 @Service
 public class CarManager implements CarService {
     private CarRepository carRepository;
@@ -30,10 +38,35 @@ public class CarManager implements CarService {
     }
 
     @Override
-    public List<Car> getCarByPlateNumber(String plateNumber) {
-        return carRepository.findByPlateNumberStartingWith(plateNumber);
+    public List<GetCarByPlateNumberStartingWithResponse> getCarByPlateNumber(String plateNumber) {
+        List<Car> cars = carRepository.findByPlateNumberStartingWith(plateNumber);
+        return cars.stream()
+                .map(car -> {
+                    Model model = car.getModel();
+                    if(model != null){
+                        return new GetCarByPlateNumberStartingWithResponse(
+                                car.getPlateNumber(),
+                                new GetAllModelsResponse(model.getId(), model.getModelName()),
+                                car.getPassengerCapacity(),
+                                car.getBaggageCapacity(),
+                                car.getImage());
+                    }else {
+                        return null;
+                    }
+                })
+                .filter(Objects :: nonNull)
+                .toList();
     }
-
+    @Override
+    public List<GetCarByBrandResponse> getCarByBrand(String brandName) {
+        return carRepository.getCarByBrand().stream()
+                .filter(car -> car.getBrand().getBrandName().equals(brandName))
+                .map(car -> new GetCarByBrandResponse(
+                                car.getPlateNumber(),
+                                new GetAllBrandsByCustomerResponse(car.getBrand().getId(),car.getBrand().getBrandName()),
+                                new GetAllModelsResponse(car.getModel().getId(), car.getModel().getModelName())))
+                .toList();
+    }
     @Override
     public void addCar(AddCarRequest request) {
         Car car = new Car();
@@ -73,19 +106,5 @@ public class CarManager implements CarService {
         carRepository.findById(request.getId()).orElseThrow();
     }
 
-    @Override
-    public List<GetCarByBrandResponse> getCarByBrand(String brandName) {
-        List<GetCarByBrandResponse> carByBrandResponseList = carRepository.getCarByBrand();
-        List<GetCarByBrandResponse> responses = new ArrayList<>();
-        for (GetCarByBrandResponse response : carByBrandResponseList) {
-            GetCarByBrandResponse carByBrandResponse = new GetCarByBrandResponse();
-            if(response.getBrand().equals(brandName)){
-                carByBrandResponse.setBrand(response.getBrand());
-                carByBrandResponse.setPlateNumber(response.getPlateNumber());
-                carByBrandResponse.setModel(response.getModel());
-                responses.add(carByBrandResponse);
-            }
-        }
-        return responses;
-    }
+
 }

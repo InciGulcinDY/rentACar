@@ -3,10 +3,14 @@ package com.tobeto.rentACar.services.concretes;
 import com.tobeto.rentACar.dataAccess.concretes.VanRepository;
 import com.tobeto.rentACar.entities.concretes.Van;
 import com.tobeto.rentACar.services.abstracts.VanService;
+import com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse;
+import com.tobeto.rentACar.services.dtos.models.response.GetAllModelsResponse;
+import com.tobeto.rentACar.services.dtos.motorcycles.response.GetMotorcycleByPlateNumberStartingWithResponse;
 import com.tobeto.rentACar.services.dtos.vans.requests.AddVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.requests.DeleteVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.requests.UpdateVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.responses.GetAllVanResponse;
+import com.tobeto.rentACar.services.dtos.vans.responses.GetVanByPlateNumberResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,8 +30,16 @@ public class VanManager implements VanService {
     }
 
     @Override
-    public List<Van> getVanByPlateNumber(String plateNumber) {
-        return vanRepository.findByPlateNumberStartingWith(plateNumber);
+    public List<GetVanByPlateNumberResponse> getVanByPlateNumber(String plateNumber) {
+        return vanRepository.findByPlateNumberStartingWith(plateNumber)
+                .stream()
+                .map(van -> new GetVanByPlateNumberResponse(
+                        van.getPlateNumber(),
+                        new GetAllBrandsByCustomerResponse(van.getModel().getBrand().getId(),van.getModel().getBrand().getBrandName()),
+                        new GetAllModelsResponse(van.getModel().getId(),van.getModel().getModelName()),
+                        van.getPassengerCapacity(),
+                        van.getBaggageCapacity(),
+                        van.getImage())).toList();
     }
 
     @Override

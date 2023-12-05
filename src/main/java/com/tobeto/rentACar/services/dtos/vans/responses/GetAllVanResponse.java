@@ -1,5 +1,7 @@
 package com.tobeto.rentACar.services.dtos.vans.responses;
 
+import com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse;
+import com.tobeto.rentACar.services.dtos.models.response.GetAllModelsResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GetAllVanResponse {
     private String plateNumber;
-    private String brand;
-    private String model;
+    private GetAllBrandsByCustomerResponse brand;
+    private GetAllModelsResponse model;
     private int passengerCapacity;
     private  int baggageCapacity;
     private String image;

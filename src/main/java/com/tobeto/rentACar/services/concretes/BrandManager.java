@@ -7,6 +7,7 @@ import com.tobeto.rentACar.services.dtos.brands.request.AddBrandByEmployeeReques
 import com.tobeto.rentACar.services.dtos.brands.request.DeleteBrandByEmployeeRequest;
 import com.tobeto.rentACar.services.dtos.brands.request.UpdateBrandByEmployeeRequest;
 import com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse;
+import com.tobeto.rentACar.services.dtos.brands.response.GetBrandByBrandNameStartingWithResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,23 +20,20 @@ public class BrandManager implements BrandService {
         this.brandRepository = brandRepository;
     }
 
-
     @Override
     public List<GetAllBrandsByCustomerResponse> getAllBrandsByCustomerResponse() {
         List<Brand>  brands = brandRepository.findAll();
-        List<GetAllBrandsByCustomerResponse> customerResponses = new ArrayList<GetAllBrandsByCustomerResponse>();
-
-        for (Brand brand: brands) {
-            GetAllBrandsByCustomerResponse responseItem =new GetAllBrandsByCustomerResponse();
-            responseItem.setBrandName(brand.getBrandName());
-            customerResponses.add(responseItem);
-        }
-        return customerResponses;
+        List<GetAllBrandsByCustomerResponse> responses = brands.stream()
+                .map(brand -> new GetAllBrandsByCustomerResponse(brand.getId(), brand.getBrandName())).toList();
+        return responses;
     }
 
     @Override
-    public List<Brand> getByName(String brandName) {
-        return brandRepository.findByBrandNameStartingWith(brandName);
+    public List<GetBrandByBrandNameStartingWithResponse> getByName(String brandName) {
+        List<Brand> brands = brandRepository.findByBrandNameStartingWith(brandName);
+        List<GetBrandByBrandNameStartingWithResponse> responses = brands.stream()
+                .map(brand -> new GetBrandByBrandNameStartingWithResponse(brand.getId(),brand.getBrandName())).toList();
+        return responses;
     }
 
     @Override

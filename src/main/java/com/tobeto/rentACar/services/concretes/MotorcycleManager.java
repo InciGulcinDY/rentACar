@@ -3,11 +3,16 @@ package com.tobeto.rentACar.services.concretes;
 import com.tobeto.rentACar.dataAccess.concretes.MotorcycleRepository;
 import com.tobeto.rentACar.entities.concretes.Motorcycle;
 import com.tobeto.rentACar.services.abstracts.MotorcycleService;
+import com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse;
+import com.tobeto.rentACar.services.dtos.cars.response.GetCarByPlateNumberStartingWithResponse;
+import com.tobeto.rentACar.services.dtos.gearTypes.response.GetAllGearTypesResponse;
+import com.tobeto.rentACar.services.dtos.models.response.GetAllModelsResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.request.AddMotorcycleRequest;
 import com.tobeto.rentACar.services.dtos.motorcycles.request.DeleteMotorcycleRequest;
 import com.tobeto.rentACar.services.dtos.motorcycles.request.UpdateMotorcycleRequest;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleWithGearTypesResponse;
+import com.tobeto.rentACar.services.dtos.motorcycles.response.GetMotorcycleByPlateNumberStartingWithResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,8 +32,17 @@ public class MotorcycleManager implements MotorcycleService {
     }
 
     @Override
-    public List<Motorcycle> findByPlateNumberStartingWith(String plateNumber) {
-        return motorcycleRepository.findByPlateNumberStartingWith(plateNumber);
+    public List<GetMotorcycleByPlateNumberStartingWithResponse> findByPlateNumberStartingWith(String plateNumber) {
+        return motorcycleRepository.findByPlateNumberStartingWith(plateNumber)
+                .stream()
+                .filter(motorcycle -> motorcycle.getPlateNumber().equals(plateNumber))
+                .map(motorcycle -> new GetMotorcycleByPlateNumberStartingWithResponse(
+                        motorcycle.getPlateNumber(),
+                        new GetAllBrandsByCustomerResponse(motorcycle.getModel().getBrand().getId(),
+                                motorcycle.getModel().getBrand().getBrandName()),
+                        new GetAllModelsResponse(motorcycle.getModel().getId(),motorcycle.getModel().getModelName()),
+                        new GetAllGearTypesResponse(motorcycle.getGearType().getId(), motorcycle.getGearType().getGearTypeDef())
+                )).toList();
     }
 
     @Override

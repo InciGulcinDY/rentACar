@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllCustomerResponse {
+public class GetCustomerByLastNameStartingWithResponse {
     private String firstName;
     private String lastName;
     private LocalDateTime birthday;

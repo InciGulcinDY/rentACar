@@ -9,6 +9,7 @@ import com.tobeto.rentACar.services.dtos.cars.request.UpdateCarRequest;
 import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsWithGearTypesResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetCarByBrandResponse;
+import com.tobeto.rentACar.services.dtos.cars.response.GetCarByPlateNumberStartingWithResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class CarsControllers {
     }
 
     @GetMapping("plateNumber")
-    public List<Car> getCarByPlateNumber(@RequestParam String plateNumber){
+    public List<GetCarByPlateNumberStartingWithResponse> getCarByPlateNumber(@RequestParam String plateNumber){
         return carService.getCarByPlateNumber(plateNumber);
     }
 

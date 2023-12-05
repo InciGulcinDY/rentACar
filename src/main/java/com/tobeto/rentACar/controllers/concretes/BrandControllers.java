@@ -6,6 +6,7 @@ import com.tobeto.rentACar.services.dtos.brands.request.AddBrandByEmployeeReques
 import com.tobeto.rentACar.services.dtos.brands.request.DeleteBrandByEmployeeRequest;
 import com.tobeto.rentACar.services.dtos.brands.request.UpdateBrandByEmployeeRequest;
 import com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse;
+import com.tobeto.rentACar.services.dtos.brands.response.GetBrandByBrandNameStartingWithResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class BrandControllers {
         return brandService.getAllBrandsByCustomerResponse();
     }
     @GetMapping()
-    public List<Brand> getByName(@RequestParam String brandName){
+    public List<GetBrandByBrandNameStartingWithResponse> getByName(@RequestParam String brandName){
         return brandService.getByName(brandName);
     }
     @PostMapping

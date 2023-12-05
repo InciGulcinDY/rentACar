@@ -7,12 +7,13 @@ import com.tobeto.rentACar.services.dtos.motorcycles.request.DeleteMotorcycleReq
 import com.tobeto.rentACar.services.dtos.motorcycles.request.UpdateMotorcycleRequest;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleWithGearTypesResponse;
+import com.tobeto.rentACar.services.dtos.motorcycles.response.GetMotorcycleByPlateNumberStartingWithResponse;
 
 import java.util.List;
 
 public interface MotorcycleService {
     public List<GetAllMotorcycleResponse> getAllMotorcycles();
-    public List<Motorcycle> findByPlateNumberStartingWith (String PlateNumber);
+    public List<GetMotorcycleByPlateNumberStartingWithResponse> findByPlateNumberStartingWith (String PlateNumber);
     public List<GetAllMotorcycleWithGearTypesResponse> getAllMotorcycleWithGearTypes();
     public void addMotorcycle(AddMotorcycleRequest request);
     public void deleteMotorcycle(DeleteMotorcycleRequest request);

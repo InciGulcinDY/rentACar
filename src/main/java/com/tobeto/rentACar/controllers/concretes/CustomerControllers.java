@@ -5,9 +5,7 @@ import com.tobeto.rentACar.services.abstracts.CustomerService;
 import com.tobeto.rentACar.services.dtos.customers.request.AddCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.request.DeleteCustomerRequest;
 import com.tobeto.rentACar.services.dtos.customers.request.UpdateCustomerRequest;
-import com.tobeto.rentACar.services.dtos.customers.response.GetAllCustomerResponse;
-import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerAgeResponse;
-import com.tobeto.rentACar.services.dtos.customers.response.GetCustomerBirthdayResponse;
+import com.tobeto.rentACar.services.dtos.customers.response.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,17 +19,17 @@ public class CustomerControllers {
         this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping("getall")
     public List<GetAllCustomerResponse> getAll(){
         return customerService.getAllCustomers();
     }
 
     @GetMapping("firstName")
-    public  List<Customer> getByFirstname(@RequestParam String firstName){
+    public  List<GetCustomerByFirstNameStartingWithResponse> getByFirstname(@RequestParam String firstName){
         return customerService.getByFirstName(firstName);
     }
     @GetMapping("lastName")
-    public List<Customer> getByLastName(@RequestParam String lastName){
+    public List<GetCustomerByLastNameStartingWithResponse> getByLastName(@RequestParam String lastName){
         return customerService.getByLastName(lastName);
     }
     @GetMapping("{firstNameBirthday}")
@@ -55,7 +53,7 @@ public class CustomerControllers {
     }
 
     /*TODO:
-        @GetMapping("{firstNameFroAge}")
+      //  @GetMapping("{firstNameForAge}")
     public List<GetCustomerAgeResponse> getCustomerAgeResponse(@RequestParam String firstName){
         return customerService.getCustomerAge(firstName);
     }
