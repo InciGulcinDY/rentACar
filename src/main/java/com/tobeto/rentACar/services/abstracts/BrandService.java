@@ -15,6 +15,6 @@ public interface BrandService {
     public void addBrandByEmployee(AddBrandByEmployeeRequest request);
     public void deleteBrandByEmployee(DeleteBrandByEmployeeRequest request) throws Exception;
     public void updateBrandByEmployee(UpdateBrandByEmployeeRequest request, String brandName);
-
+    public Brand getById(int id);
 
 }

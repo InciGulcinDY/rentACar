@@ -19,6 +19,6 @@ public interface CustomerService {
     public void addCustomer(AddCustomerRequest request);
     public void deleteCustomer(DeleteCustomerRequest request);
     public void updateCustomer(String internationalId, UpdateCustomerRequest request);
+    public Customer getById(int id);
 
-    //TODO: public List<Customer> getCustomerAge(String firstName);
 }

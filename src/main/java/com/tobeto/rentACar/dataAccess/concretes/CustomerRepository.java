@@ -16,11 +16,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
             "WHERE c.firstName = :firstName")
     List<GetCustomerBirthdayResponse> getCustomerBirthday(String firstName);    // JPQL Methods
 
+    boolean existsCustomerByFirstName(String firstName);    // JPQL Methods
+    boolean existsCustomerByLastName(String lastName);  // JPQL Methods
 
-    /*TODO:
-    @Query("SELECT new com.tobeto.rentACar.services.dtos.customers.response.GetCustomerBirthdayResponse(c.firstName, c.lastName, c.birthday, c.age) " +
-            "FROM Customer c " +
-            "WHERE c.firstName = :firstName")
-    List<GetCustomerAgeResponse> getCustomerAge(String firstName);    // JPQL Methods
-*/
+    boolean existsCustomerByInternationalId(String internationalId);
+
+
 }

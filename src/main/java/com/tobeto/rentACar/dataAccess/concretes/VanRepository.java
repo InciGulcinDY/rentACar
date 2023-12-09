@@ -21,5 +21,6 @@ public interface VanRepository  extends JpaRepository<Van, Integer> {
     )
     List<GetAllVanResponse> getAllVans();   // JPQL Methods
 
+    boolean existsVanByPlateNumber(String plateNumber);    // Derived Query Methods
 
 }

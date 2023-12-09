@@ -38,6 +38,12 @@ public class BrandManager implements BrandService {
 
     @Override
     public void addBrandByEmployee(AddBrandByEmployeeRequest request) {
+        //Business Rule-1:
+        if(brandRepository.existsBrandByBrandName(request.getBrandName())){
+            throw new RuntimeException("The same brand cannot be added twice");
+        }
+
+        // Mapping:
         Brand brand = new Brand();
         brand.setBrandName(request.getBrandName());
         brandRepository.save(brand);
@@ -58,14 +64,22 @@ public class BrandManager implements BrandService {
     @Override
     public void updateBrandByEmployee(UpdateBrandByEmployeeRequest request, String brandName) {
         List<Brand> brands = brandRepository.findAll();
+
+        //Business Rule-1:
+        if(brandRepository.existsBrandByBrandName(request.getBrandName())){
+            throw new RuntimeException("The same brand cannot be added twice");
+        }
+        // Mapping:
         for (Brand brand:brands) {
             if (brand.getBrandName().equals(brandName)){
-                request.setId(brand.getId());
                 brand.setBrandName(request.getBrandName());
                 brandRepository.save(brand);
             }
         }
-        //Checking the existance of the brand
-        brandRepository.findById(request.getId()).orElseThrow();
+    }
+
+    @Override
+    public Brand getById(int id) {
+        return brandRepository.findById(id).orElseThrow();
     }
 }

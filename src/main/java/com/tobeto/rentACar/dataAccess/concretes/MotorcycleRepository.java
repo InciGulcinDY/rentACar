@@ -30,4 +30,6 @@ public interface MotorcycleRepository extends JpaRepository<Motorcycle, Integer>
             "join m.brand b " +
             "join mo.gearType g")
     List<GetAllMotorcycleWithGearTypesResponse> getAllMotorcycleWithGearTypesResponse();    // JPQL Methods
+
+    boolean existsMotorcycleByPlateNumber(String plateNumber);    // Derived Query Methods
 }

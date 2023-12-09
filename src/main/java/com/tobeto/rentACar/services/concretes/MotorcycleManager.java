@@ -1,8 +1,8 @@
 package com.tobeto.rentACar.services.concretes;
 
 import com.tobeto.rentACar.dataAccess.concretes.MotorcycleRepository;
-import com.tobeto.rentACar.entities.concretes.Motorcycle;
-import com.tobeto.rentACar.services.abstracts.MotorcycleService;
+import com.tobeto.rentACar.entities.concretes.*;
+import com.tobeto.rentACar.services.abstracts.*;
 import com.tobeto.rentACar.services.dtos.brands.response.GetAllBrandsByCustomerResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetCarByPlateNumberStartingWithResponse;
 import com.tobeto.rentACar.services.dtos.gearTypes.response.GetAllGearTypesResponse;
@@ -13,18 +13,22 @@ import com.tobeto.rentACar.services.dtos.motorcycles.request.UpdateMotorcycleReq
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleWithGearTypesResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetMotorcycleByPlateNumberStartingWithResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class MotorcycleManager implements MotorcycleService {
-    private MotorcycleRepository motorcycleRepository;
-
-    public MotorcycleManager(MotorcycleRepository motorcycleRepository) {
-        this.motorcycleRepository = motorcycleRepository;
-    }
+    private final MotorcycleRepository motorcycleRepository;
+    private final ColorService colorService;
+    private final ModelService modelService;
+    private final GearTypeService gearTypeService;
+    private final EnergyTypeService energyTypeService;
+    private final DriverLicenceTypeService driverLicenceTypeService;
 
     @Override
     public List<GetAllMotorcycleResponse> getAllMotorcycles() {
@@ -53,9 +57,39 @@ public class MotorcycleManager implements MotorcycleService {
     @Override
     public void addMotorcycle(AddMotorcycleRequest request) {
         Motorcycle motorcycle = new Motorcycle();
-        motorcycle.setImage(request.getImage());
+        //Business Rule-1:
+        if(motorcycleRepository.existsMotorcycleByPlateNumber(request.getPlateNumber())){
+            throw new RuntimeException("A second vehicle with the same license plate cannot be added");
+        }
+        //Business Rule-2:
+        if(Year.now().getValue() - request.getManufacturedYear() > 10){
+            throw  new RuntimeException("Vehicles can not be older than 10 years old.");
+        }
+        //Business Rule-3:
+        if(Year.now().getValue() - request.getTrafficPermitLicenceDate().getYear() < 2){
+            throw new RuntimeException("Cars must have valid traffic permit licence!");
+        }
+
+        // Mapping:
         motorcycle.setPlateNumber(request.getPlateNumber());
         motorcycle.setPassengerCapacity(request.getPassengerCapacity());
+        motorcycle.setImage(request.getImage());
+        motorcycle.setBaggageCapacity(request.getBaggageCapacity());
+        motorcycle.setDriverAgeLimit(request.getDriverAgeLimit());
+        motorcycle.setDriverExperienceReqLimit(request.getDriverExperienceReqLimit());
+        motorcycle.setManufacturedYear(request.getManufacturedYear());
+        motorcycle.setTrafficPermitLicenceDate(request.getTrafficPermitLicenceDate());
+        Color color = colorService.getById(request.getColorId());
+        motorcycle.setColor(color);
+        Model model = modelService.getById(request.getModelId());
+        motorcycle.setModel(model);
+        GearType gearType = gearTypeService.getById(request.getGearTypeId());
+        motorcycle.setGearType(gearType);
+        EnergyType energyType = energyTypeService.getById(request.getEnergyTypeId());
+        motorcycle.setEnergyType(energyType);
+        DriverLicenceType driverLicenceType = driverLicenceTypeService.getById(request.getDriverLicenceReqTypeId());
+        motorcycle.setDriverLicenceReqType(driverLicenceType);
+
         motorcycleRepository.save(motorcycle);
     }
 
@@ -76,16 +110,43 @@ public class MotorcycleManager implements MotorcycleService {
     @Override
     public void updateMotocycle(String plateNumber, UpdateMotorcycleRequest request) {
         List<Motorcycle> motorcycles = motorcycleRepository.findAll();
+
+        //Business Rule-1:
+        if(motorcycleRepository.existsMotorcycleByPlateNumber(request.getPlateNumber())){
+            throw new RuntimeException("A second vehicle with the same license plate cannot be added");
+        }
+        //Business Rule-2:
+        if(Year.now().getValue() - request.getManufacturedYear() > 10){
+            throw  new RuntimeException("Vehicles can not be older than 10 years old.");
+        }
+        //Business Rule-3:
+        if(Year.now().getValue() - request.getTrafficPermitLicenceDate().getYear() < 2){
+            throw new RuntimeException("Cars must have valid traffic permit licence!");
+        }
+
         for (Motorcycle motorcycle : motorcycles) {
             if(motorcycle.getPlateNumber().equals(plateNumber)){
-                request.setId(motorcycle.getId());
+                motorcycle.setPlateNumber(request.getPlateNumber());
                 motorcycle.setPassengerCapacity(request.getPassengerCapacity());
                 motorcycle.setImage(request.getImage());
-                motorcycle.setPlateNumber(request.getPlateNumber());
+                motorcycle.setBaggageCapacity(request.getBaggageCapacity());
+                motorcycle.setDriverAgeLimit(request.getDriverAgeLimit());
+                motorcycle.setDriverExperienceReqLimit(request.getDriverExperienceReqLimit());
+                motorcycle.setManufacturedYear(request.getManufacturedYear());
+                motorcycle.setTrafficPermitLicenceDate(request.getTrafficPermitLicenceDate());
+                Color color = colorService.getById(request.getColorId());
+                motorcycle.setColor(color);
+                Model model = modelService.getById(request.getModelId());
+                motorcycle.setModel(model);
+                GearType gearType = gearTypeService.getById(request.getGearTypeId());
+                motorcycle.setGearType(gearType);
+                EnergyType energyType = energyTypeService.getById(request.getEnergyTypeId());
+                motorcycle.setEnergyType(energyType);
+                DriverLicenceType driverLicenceType = driverLicenceTypeService.getById(request.getDriverLicenceReqTypeId());
+                motorcycle.setDriverLicenceReqType(driverLicenceType);
                 motorcycleRepository.save(motorcycle);
             }
         }
-        //Checking the existance of the motorcycle
-        motorcycleRepository.findById(request.getId()).orElseThrow();
+
     }
 }

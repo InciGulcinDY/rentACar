@@ -9,6 +9,7 @@ import com.tobeto.rentACar.services.dtos.motorcycles.request.UpdateMotorcycleReq
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetAllMotorcycleWithGearTypesResponse;
 import com.tobeto.rentACar.services.dtos.motorcycles.response.GetMotorcycleByPlateNumberStartingWithResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class MotorcycleControllers {
     }
 
     @PostMapping
-    public void add(@RequestBody AddMotorcycleRequest request){
+    public void add(@RequestBody @Valid AddMotorcycleRequest request){
         motorcycleService.addMotorcycle(request);
     }
 
@@ -48,7 +49,7 @@ public class MotorcycleControllers {
     }
 
     @PutMapping("{plateNumber}")
-    public void update(@PathVariable String plateNumber, @RequestBody UpdateMotorcycleRequest request){
+    public void update(@PathVariable String plateNumber, @RequestBody @Valid UpdateMotorcycleRequest request){
        motorcycleService.updateMotocycle(plateNumber, request);
     }
 

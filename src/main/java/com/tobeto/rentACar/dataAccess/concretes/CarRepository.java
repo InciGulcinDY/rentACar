@@ -41,4 +41,6 @@ public interface CarRepository  extends JpaRepository<Car, Integer> {
             "join c.model m " +
             "join m.brand b")
     List<GetCarByBrandResponse> getCarByBrand();    // JPQL Methods
+
+    boolean existsCarByPlateNumber(String plateNumber);    // Derived Query Methods
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "personnel")
 @Entity
 @PrimaryKeyJoinColumn(name = "person_id")
-public class Personnel {
+public class Personnel extends Person{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -30,11 +30,9 @@ public class Customer extends Person {
 
     @ManyToOne
     @JoinColumn(name = "driver_licence_type_id")
-    @JsonIgnore
     private DriverLicenceType driverLicenceType;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIgnore
     private List<Rent> rents;
 
 }

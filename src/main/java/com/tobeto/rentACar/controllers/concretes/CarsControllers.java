@@ -10,6 +10,7 @@ import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetAllCarsWithGearTypesResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetCarByBrandResponse;
 import com.tobeto.rentACar.services.dtos.cars.response.GetCarByPlateNumberStartingWithResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/cars")
 public class CarsControllers {
-    private CarService carService;
+    private final CarService carService;
 
     public CarsControllers(CarService carService) {
         this.carService = carService;
@@ -43,7 +44,7 @@ public class CarsControllers {
     }
 
     @PostMapping
-    public void add(@RequestBody AddCarRequest request) {
+    public void add(@RequestBody @Valid AddCarRequest request) {
         carService.addCar(request);
     }
 
@@ -53,7 +54,7 @@ public class CarsControllers {
     }
 
     @PutMapping("{plateNumber}")
-    public void update(@RequestParam String plateNumber, @RequestBody UpdateCarRequest request) {
+    public void update(@RequestParam String plateNumber, @RequestBody @Valid UpdateCarRequest request) {
         carService.updateCar(plateNumber, request);
     }
 }

@@ -10,6 +10,7 @@ import com.tobeto.rentACar.services.dtos.vans.requests.DeleteVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.requests.UpdateVanRequest;
 import com.tobeto.rentACar.services.dtos.vans.responses.GetAllVanResponse;
 import com.tobeto.rentACar.services.dtos.vans.responses.GetVanByPlateNumberResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class VanControllers {
         return vanService.getVanByPlateNumber(plateNumber);
     }
     @PostMapping("addvan")
-    public void add(@RequestBody AddVanRequest request){
+    public void add(@RequestBody @Valid AddVanRequest request){
         vanService.addVan(request);
     }
 
@@ -43,7 +44,7 @@ public class VanControllers {
     }
 
     @PutMapping("update/{plateNumber}")
-    public void update(@PathVariable String plateNumber, @RequestBody UpdateVanRequest request){
+    public void update(@PathVariable String plateNumber, @RequestBody @Valid UpdateVanRequest request){
         vanService.updateVan(plateNumber, request);
     }
 }

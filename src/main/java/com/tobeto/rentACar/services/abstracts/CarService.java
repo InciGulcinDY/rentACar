@@ -19,5 +19,5 @@ public interface CarService {
     public void deleteCar(DeleteCarRequest request);
     public void updateCar(String plateNumber, UpdateCarRequest request);
     public List<GetCarByBrandResponse> getCarByBrand(String brandName);
-
+    public Car getById(int id);
 }

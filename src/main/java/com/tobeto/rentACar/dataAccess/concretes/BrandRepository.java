@@ -8,4 +8,6 @@ import java.util.List;
 public interface BrandRepository extends JpaRepository<Brand, Integer> {
 
     List<Brand> findByBrandNameStartingWith(String brandName); // Derived Query Methods
+
+    boolean existsBrandByBrandName(String brandName);   // Derived Query Methods
 }
