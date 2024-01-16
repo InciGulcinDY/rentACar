@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @Table(name = "branches")
 @Entity
-public class Branch {
+public class Branch{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
